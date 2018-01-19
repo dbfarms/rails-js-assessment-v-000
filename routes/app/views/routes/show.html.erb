@@ -3,7 +3,7 @@
 
 <ul>
     <% @route.landmarks.each do |landmark| %>
-        <li><%= link_to landmark.name, landmark_path(landmark) %></li>
+        <li><button class="landmark" data-id="<%=landmark.id%>"><%= landmark.name %></button></li>
     <% end %>
 </ul>
 
@@ -14,20 +14,22 @@
 
 <% #binding.pry %>
 
-<br><br>
-<div id="landmark-info"></div>
-<br><br>
+<br>
+<div id="landmark-name"></div><br>
+<div id="landmark-history"></div>
+<br>
+<br>
 
 <script type="text/javascript" charset="utf-8">
 $(function () { 
-  $('.route').on("click", function(e) {
+  $('.landmark').on("click", function(e) {
         var id = this.dataset.id
         e.preventDefault()
-        $.get("/maps/" + id + ".json", function(data, relationships) {
-          var pageInfo = data 
-          debugger
-          $('#route-info').html(data["data"]["attributes"]["name"])
-          //$('#route-info').html(data["data"]["attributes"]["name"])
+        
+        $.get("/landmarks/" + id + ".json", function(data) {
+        $('#landmark-name').html()
+        $('#landmark-name').html(data["data"]["attributes"]["name"])
+        $('#landmark-history').html(data["data"]["attributes"]["history"])
         })
     })    
   })

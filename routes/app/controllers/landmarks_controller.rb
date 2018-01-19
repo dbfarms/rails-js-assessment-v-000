@@ -11,7 +11,10 @@ class LandmarksController < ApplicationController
     def show 
         set_landmark
         @routes = Route.all
-        
+        respond_to do |format| 
+            format.json {render json: @landmark }
+            format.html {render :show }
+        end 
     end
     
     def create
