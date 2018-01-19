@@ -19,7 +19,9 @@ class LandmarksController < ApplicationController
     
     def create
         @landmark = Landmark.create(landmark_params)
-        redirect_to landmark_path(@landmark)
+        
+        render json: @landmark, status: 201
+        #redirect_to landmark_path(@landmark)
     end
     
     private 
@@ -29,7 +31,7 @@ class LandmarksController < ApplicationController
     end 
     
     def landmark_params
-        params.require(:landmark).permit(:name, :history)
+        params.require(:landmark).permit(:name, :history, :route_ids => [])
     end 
     
 end 

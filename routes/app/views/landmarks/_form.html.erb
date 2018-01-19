@@ -14,3 +14,28 @@
     <%= f.submit %>
 
 <% end %>
+
+<br><br>
+<div id="landmarkResult">
+<h2 id="landmarkName"></h2>
+<p id="landmarkHistory"></p>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+$(function() {
+    $('form').submit(function(e) { 
+        //debugger
+        e.preventDefault()
+        var values = $(this).serialize()
+        var landmark = $.post('/landmarks', values)
+        
+        landmark.done(function(data) {
+            debugger
+            var landmark = data
+            $("#landmarkName").text(landmark["data"]["attributes"]["name"])
+            $("#landmarkHistory").text(landmark["data"]["attributes"]["history"])
+            // FOR SOME REASON ROUTES AREN'T SHOWING UP HERE!
+        })
+    })
+})
+</script>
