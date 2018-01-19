@@ -2,13 +2,22 @@ class MapsController < ApplicationController
     helper_method :params
     
     def index 
-        @maps = Map.all 
+        @maps = Map.all
+        
+        respond_to do |format|
+            format.json {render json: @maps }
+            format.html {render :index }
+        end 
     end 
     
     def show
         set_map 
         @rating
        # binding.pry
+       respond_to do |format|
+           format.json {render json:@map }
+           format.html {render :show }
+       end 
     end 
     
     def create

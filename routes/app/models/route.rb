@@ -4,6 +4,8 @@ class Route < ApplicationRecord
     belongs_to :map 
     has_one :category
     
+    
+    
     def push_landmarks(route, landmark_ids)
         landmark_ids.each do |lm|
             landmark = Landmark.find_by(id: lm.to_i)
