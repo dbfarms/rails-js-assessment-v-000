@@ -1,0 +1,20 @@
+<h1> Welcome to User Maps, where User Make Maps and Maps Have Routes and So On</h1>
+
+<% if current_user %>
+ <p>Signed in as <%=@user.email %> </p>
+
+
+<% #binding.pry %>
+<h2>Pick a map to edit:</h2>
+
+ <ul>
+   <% @maps.each do |map| %>
+    <li><%= link_to map.name, map_path(map)%></li>
+   <% end %>
+ </ul>
+
+<% end %>
+
+
+ 
+ <br><br><br>

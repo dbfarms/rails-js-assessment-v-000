@@ -1,0 +1,35 @@
+<h1><%= @map.name %></h1>
+
+
+<div>
+  <h3>Filter routes:</h3>
+  <%= form_tag("/maps/:id", method: "get") do %>
+    <%= select_tag "rating", options_for_select(["1", "2", "3", "4", "5"]), include_blank: true %>
+    <%= hidden_field_tag "map", @map.id %>
+    <%= submit_tag "Filter" %>
+  <% end %>
+</div>
+
+
+<% if !params[:rating].blank? %>
+  <% #binding.pry %>
+  <% @routes = Route.where("rating =?", @rating.to_i) %>
+  <ul>
+    <% @routes.each do |route| %>
+        <li><%= link_to route.name, map_route_path(route) %></li>
+    <% end %>
+</ul>
+<% else %>
+
+<%# if @map.routes %>
+<ul>
+    <% @map.routes.each do |route| %>
+        <li><%= link_to route.name, map_route_path(@map.id, route.id) %></li>
+    <% end %>
+</ul>
+
+<% end %>
+
+<label><%= link_to "Create New Route?", new_map_route_path(@map) %></label>
+
+<br><br>

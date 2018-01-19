@@ -1,0 +1,7 @@
+<h2>The Maps</h2>
+
+<ul>
+    <% @maps.each do |map| %>
+        <li><%= link_to map.name, map_path(map) %></li>
+    <% end %>
+</ul>

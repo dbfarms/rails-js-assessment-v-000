@@ -1,0 +1,15 @@
+<h3><%=@route.name %></h3>
+<% #binding.pry%>
+
+<ul>
+    <% @route.landmarks.each do |landmark| %>
+        <li><%= link_to landmark.name, landmark_path(landmark) %></li>
+    <% end %>
+</ul>
+
+<br>
+
+<h3><%= link_to "Edit Route", edit_map_route_path %></h3>
+<h3><%= link_to "Create New Landmark", new_landmark_path %></h3> 
+
+<% #binding.pry %>
