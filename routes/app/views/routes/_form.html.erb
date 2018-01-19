@@ -1,5 +1,5 @@
 <% #binding.pry %>
-
+<h1>this is just a test</h1>
 <h3>Your route:</h3>
 
 <%= form_for @route, url: map_routes_path do |f| %>
@@ -12,3 +12,28 @@
     <%= f.submit %>
 
 <% end %>
+
+<br><br><br>
+<div id="results">
+<h2 id=""></h2>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+$(function() {
+    debugger
+    $('form').submit(function(e) { 
+        debugger
+        e.preventDefault()
+        var values = $(this).serialize()
+        var route = $.post('/maps/:map_id/routes', values)
+        
+        landmark.done(function(data) {
+            debugger
+            var thisRoute = data
+            $("#routeName").text(thisRoute["data"]["attributes"]["name"])
+            $("#routeRanking").text(thisRoute["data"]["attributes"]["ranking"])
+            // FOR SOME REASON ROUTES AREN'T SHOWING UP HERE!
+        })
+    })
+})
+</script>

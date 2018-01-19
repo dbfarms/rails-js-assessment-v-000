@@ -45,10 +45,14 @@ class RoutesController < ApplicationController
         #binding.pry
         @route = Route.find(params["route"]["id"])
         @route.update(route_params)
-        @route.push_landmarks(@route, params["route"]["landmark_ids"])
+        #@route.push_landmarks(@route, params["route"]["landmark_ids"])
         @route.save
         map = Map.find(params["route"]["map_id"])
-        redirect_to map_route_path(map.id, @route.id)
+        respond_to do |format|
+            format.json { render json @route, status:201}
+            format.html { render :show}
+        end 
+        #redirect_to map_route_path(map.id, @route.id)
     end 
     
     
@@ -64,7 +68,7 @@ class RoutesController < ApplicationController
     end 
     
     def route_params
-        params.require(:route).permit(:name, :landmark_ids, :map_id)
+        params.require(:route).permit(:name, :map_id, :landmark_ids => [])
     end 
     
 end 
