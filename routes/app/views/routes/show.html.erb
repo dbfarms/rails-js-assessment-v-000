@@ -13,3 +13,22 @@
 <h3><%= link_to "Create New Landmark", new_landmark_path %></h3> 
 
 <% #binding.pry %>
+
+<br><br>
+<div id="landmark-info"></div>
+<br><br>
+
+<script type="text/javascript" charset="utf-8">
+$(function () { 
+  $('.route').on("click", function(e) {
+        var id = this.dataset.id
+        e.preventDefault()
+        $.get("/maps/" + id + ".json", function(data, relationships) {
+          var pageInfo = data 
+          debugger
+          $('#route-info').html(data["data"]["attributes"]["name"])
+          //$('#route-info').html(data["data"]["attributes"]["name"])
+        })
+    })    
+  })
+</script>

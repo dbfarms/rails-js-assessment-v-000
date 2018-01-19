@@ -17,7 +17,6 @@
   <ul>
     <% @routes.each do |route| %>
         <li><button class="route" data-map="<%=@map.id%>" data-id="<%=route.id%>"><%=route.name%></button></li>
-        <li><%=link_to route.name, map_route_path(@map.id, route.id) %></li>
     <% end %>
 </ul>
 <% else %>
@@ -26,15 +25,12 @@
 <ul>
     <% @map.routes.each do |route| %>
         <li><button class="route" data-map="<%=@map.id%>" data-id="<%=route.id%>"><%=route.name%></button></li>
-        <li><%= link_to route.name, map_route_path(@map.id, route.id) %></li>
     <% end %>
 </ul>
 
 <% end %>
 
-<br><br>
-<div id="route-info"></div>
-<br><br>
+
 
 
 <label><%= link_to "Create New Route?", new_map_route_path(@map) %></label>
@@ -42,19 +38,17 @@
 <br><br>
 
 <script type="text/javascript" charset="utf-8">
-$(function () { 
-  $('.route').on("click", function(e) {
-        var id = this.dataset.id
-        e.preventDefault()
-        $.get("/maps/" + id + ".json", function(data, relationships) {
-          var pageInfo = data 
-          debugger
-          $('#route-info').html(data["data"]["attributes"]["name"])
-          //$('#route-info').html(data["data"]["attributes"]["name"])
-        })
-    })    
+  $(function() {
+    $('.route').click( function() {
+      //debugger
+      var id = this.dataset.id
+      var map = this.dataset.map
+      //debugger
+       window.location=`${map}/routes/${id}`
+    })
   })
 </script>
+
 
 <!--
 
