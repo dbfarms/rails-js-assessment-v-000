@@ -15,7 +15,7 @@ class MapsController < ApplicationController
         @rating
        # binding.pry
        respond_to do |format|
-           format.json {render json:@map }
+           format.json {render json: @map }
            format.html {render :show }
        end 
     end 

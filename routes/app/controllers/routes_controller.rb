@@ -10,13 +10,21 @@ class RoutesController < ApplicationController
     def index
         set_map
         @routes = @map.routes 
+        #render json: @map.routes
         #binding.pry
-        render json: @map.routes
+        respond_to do |format|
+           format.json {render json: @map.routes }
+           format.html {redirect_to map_path(@map.id) }
+        end 
     end 
     
     def show
-        binding.pry
-        set_route 
+        #binding.pry
+        set_route
+        respond_to do |format|
+            format.json {render json: @route, include: ['maps', 'landmarks']}
+            format.html {render :show  } #for some reason redirect_to wasn't working here!!!!!!!!
+        end 
     end 
     
     def create 

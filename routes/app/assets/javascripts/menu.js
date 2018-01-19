@@ -6,6 +6,7 @@ function attachListeners() {
     $('#mapsButton').on('click', () => mapButtons());
     $('#landmarksButton').on('click', () => landmarkButtons());
     $('#categoriesButton').on('click', () => categoryButtons());
+    //$('#routesButton').on('click', () => routeButtons())
 
 }
 
@@ -16,24 +17,27 @@ function mapButtons() {
             mapList.data.forEach(buttonizeMapList)
         }
     })
-
 }
 
 function landmarkButtons() {
-    debugger
+    debugger 
+    // make this just a link
 }
 
 function categoryButtons() {
     debugger
+    //make this a link too
 }
 
 function buttonizeMapList(map) {
     //debugger
     $('#maps').append(`<button id="mapID-${map.id}">${map.attributes.name}</button><br>`)
-    $(`#mapID-${map.id}`).on('click', () => loadRoutes(map.id))
-}
+    $(`#mapID-${map.id}`).click(function(){
+        window.location=`maps/${map.id}/routes`
+    });
+};
 
-function loadRoutes(mapID) {
+/*
     const xhr = new XMLHttpRequest;
     //debugger 
     xhr.overrideMimeType('application/json');
@@ -45,7 +49,8 @@ function loadRoutes(mapID) {
     }
     
     xhr.send(null);
-}
+*/
+
 /*
   
   xhr.open('GET', `/games/${gameID}`, true);

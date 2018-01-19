@@ -2,7 +2,7 @@
 
 
 <div>
-  <h3>Filter routes:</h3>
+  <h3>Filter routes by rating:</h3>
   <%= form_tag("/maps/:id", method: "get") do %>
     <%= select_tag "rating", options_for_select(["1", "2", "3", "4", "5"]), include_blank: true %>
     <%= hidden_field_tag "map", @map.id %>
@@ -16,7 +16,8 @@
   <% @routes = Route.where("rating =?", @rating.to_i) %>
   <ul>
     <% @routes.each do |route| %>
-        <li><%= link_to route.name, map_route_path(route) %></li>
+        <li><button class="route" data-map="<%=@map.id%>" data-id="<%=route.id%>"><%=route.name%></button></li>
+        <li><%=link_to route.name, map_route_path(@map.id, route.id) %></li>
     <% end %>
 </ul>
 <% else %>
@@ -24,12 +25,59 @@
 <%# if @map.routes %>
 <ul>
     <% @map.routes.each do |route| %>
+        <li><button class="route" data-map="<%=@map.id%>" data-id="<%=route.id%>"><%=route.name%></button></li>
         <li><%= link_to route.name, map_route_path(@map.id, route.id) %></li>
     <% end %>
 </ul>
 
 <% end %>
 
+<br><br>
+<div id="route-info"></div>
+<br><br>
+
+
 <label><%= link_to "Create New Route?", new_map_route_path(@map) %></label>
 
 <br><br>
+
+<script type="text/javascript" charset="utf-8">
+$(function () { 
+  $('.route').on("click", function(e) {
+        var id = this.dataset.id
+        e.preventDefault()
+        $.get("/maps/" + id + ".json", function(data, relationships) {
+          var pageInfo = data 
+          debugger
+          $('#route-info').html(data["data"]["attributes"]["name"])
+          //$('#route-info').html(data["data"]["attributes"]["name"])
+        })
+    })    
+  })
+</script>
+
+<!--
+
+
+
+<script type="text/javascript" charset="utf-8">
+$(function () { 
+  $('.route').on("click", function(e) {
+    var id = this.dataset.id
+    var map = this.dataset.map
+    const xhr = new XMLHttpRequest;
+    xhr.overrideMimeType('application/json');
+    //debugger
+    xhr.open('GET', `/maps/${map}/routes/${id}`, true);
+    xhr.onload = () => {
+      debugger
+      const data = JSON.parse(xhr.responseText).data;
+      const id = data.id;
+      const state = data.attributes.state;
+    }
+  })
+})
+</script>
+
+
+-->
