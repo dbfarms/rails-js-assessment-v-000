@@ -24,16 +24,27 @@ function mapButtons() {
 }
 
 function landmarkButtons() {
-    $.get('/landmar')
+    $.get('/landmarks', (landmarkList) => {
+      var lms = $('#landmarks').html()
+      //debugger
+      if (landmarkList.data.length && lms === "") {
+        landmarkList.data.forEach(buttonizeLandmarkList)
+      } else if (lms !== "") {
+        document.getElementById('landmarks').innerHTML = ""
+      }
+    })
 }
 
-function categoryButtons() {
-    debugger
-    //make this a link too
+function buttonizeLandmarkList(landmark) {
+  $('#landmarks').append(`<button id="landmarkID-${landmark.id}">${landmark.attributes.name}</button>`)
+  
+  $(`#landmarkID-${landmark.id}`).click(function() {
+    window.location=`landmarks/${landmark.id}/routes`
+  })
 }
+
 
 function buttonizeMapList(map) {
-    //debugger
     $('#maps').append(`<button id="mapID-${map.id}">${map.attributes.name}</button><br>`)
     $(`#mapID-${map.id}`).click(function(){
         window.location=`maps/${map.id}/routes`

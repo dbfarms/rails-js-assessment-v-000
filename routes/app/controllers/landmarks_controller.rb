@@ -2,6 +2,10 @@ class LandmarksController < ApplicationController
     
     def index
         @landmarks = Landmark.all 
+        respond_to do |format|
+            format.json {render json: @landmarks }
+            format.html {render :index}
+        end 
     end 
     
     def new
