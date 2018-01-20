@@ -1,15 +1,56 @@
 <% #binding.pry %>
+<h3>Edit your route:</h3>
 
-<h3>Make your route</h3>
-
-<%= form_for @route, url: map_route_path(@route.id, @map.id) do |f| %>
+<%= form_for @route, url: map_routes_path do |f| %>
     <%= f.label :name %>
-    <%= f.text_field :name, placeholder: @route.name if @route.name %><br>
-    <%= f.label :category %>
-    <%= f.collection_select :id, Category.all, :id, :name, prompt: true %><br>
+    <%= f.text_field :name %><br>
     <%= f.label :landmarks %>
     <%= f.collection_check_boxes :landmark_ids, Landmark.all, :id, :name %><br><br>
     <%= f.hidden_field :map_id, :value => @map.id %>
+    
     <%= f.submit %>
 
 <% end %>
+
+<br><br><br>
+<div id="results">
+<h2 id="routeName"></h2>
+<p id="routeRanking"></p>
+<p id="routeLandmarks"></p>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+$(function() {
+    //debugger
+    $('form').submit(function(e) { 
+        e.preventDefault()
+        var values = $(this).serialize()
+        var thisIsRoute = this.attributes[2]["nodeValue"]
+        
+        $.ajax({
+          type: 'PATCH',
+          url: `/games/${currentGame}`,
+          data: gameData
+        });
+        var routeHere = $.post(`${thisIsRoute}`, values)
+        
+        routeHere.done(function(data) {
+            var thisRoute = data
+            $("#routeName").text("Route Name: " + thisRoute["data"]["attributes"]["name"])
+            if (thisRoute["data"]["attributes"]["ranking"] === undefined) {
+                 $("#routeRanking").text("Be the first person to rate this route!") 
+            } else {
+                 $("#routeRanking").text("Route Ranking (if ranked) " + thisRoute["data"]["attributes"]["ranking"]) 
+            }
+            thisRoute["data"]["relationships"]["landmarks"]["data"].forEach(function(lm) {
+                //HOW TO GET 'INCLUDED' FROM .JSON ROUTE IN ORDER TO GET NAME OF LANDMARK
+                var node = document.createElement("br")
+                var landmarkID = $('#routeLandmarks').append("landmark id: " + lm.id + " ")
+                //document.getElementById("#routeLandmarks").append(node)
+                //landmarkID.appendChild(node)
+                //HOW TO APPEND HTML TAG
+            })
+        })
+    })
+})
+</script>

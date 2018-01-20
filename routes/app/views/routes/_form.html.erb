@@ -15,24 +15,38 @@
 
 <br><br><br>
 <div id="results">
-<h2 id=""></h2>
+<h2 id="routeName"></h2>
+<p id="routeRanking"></p>
+<p id="routeLandmarks"></p>
 </div>
 
 <script type="text/javascript" charset="utf-8">
 $(function() {
-    debugger
+    //debugger
     $('form').submit(function(e) { 
-        debugger
         e.preventDefault()
         var values = $(this).serialize()
-        var route = $.post('/maps/:map_id/routes', values)
+        var thisIsRoute = this.attributes[2]["nodeValue"]
         
-        landmark.done(function(data) {
-            debugger
+        
+        var routeHere = $.post(`${thisIsRoute}`, values)
+        
+        routeHere.done(function(data) {
             var thisRoute = data
-            $("#routeName").text(thisRoute["data"]["attributes"]["name"])
-            $("#routeRanking").text(thisRoute["data"]["attributes"]["ranking"])
-            // FOR SOME REASON ROUTES AREN'T SHOWING UP HERE!
+            $("#routeName").text("Route Name: " + thisRoute["data"]["attributes"]["name"])
+            if (thisRoute["data"]["attributes"]["ranking"] === undefined) {
+                 $("#routeRanking").text("Be the first person to rate this route!") 
+            } else {
+                 $("#routeRanking").text("Route Ranking (if ranked) " + thisRoute["data"]["attributes"]["ranking"]) 
+            }
+            thisRoute["data"]["relationships"]["landmarks"]["data"].forEach(function(lm) {
+                //HOW TO GET 'INCLUDED' FROM .JSON ROUTE IN ORDER TO GET NAME OF LANDMARK
+                var node = document.createElement("br")
+                var landmarkID = $('#routeLandmarks').append("landmark id: " + lm.id + " ")
+                //document.getElementById("#routeLandmarks").append(node)
+                //landmarkID.appendChild(node)
+                //HOW TO APPEND HTML TAG
+            })
         })
     })
 })

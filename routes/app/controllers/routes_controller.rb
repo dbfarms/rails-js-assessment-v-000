@@ -29,11 +29,14 @@ class RoutesController < ApplicationController
     
     def create 
         @route = Route.create(route_params)
-        @route.save
-        @route.push_landmarks(@route, params["route"]["landmark_ids"])
-        
+        #@route.push_landmarks(@route, params["route"]["landmark_ids"])
         map = Map.find(params["route"]["map_id"])
-        redirect_to map_route_path(map.id, @route.id)
+        binding.pry
+        respond_to do |format|
+            format.json { render json: @route, status:201}
+            format.html { render :show}
+        end 
+        #redirect_to map_route_path(map.id, @route.id)
     end 
     
     def edit 
@@ -42,14 +45,13 @@ class RoutesController < ApplicationController
     end 
     
     def update 
-        #binding.pry
         @route = Route.find(params["route"]["id"])
         @route.update(route_params)
         #@route.push_landmarks(@route, params["route"]["landmark_ids"])
         @route.save
         map = Map.find(params["route"]["map_id"])
         respond_to do |format|
-            format.json { render json @route, status:201}
+            format.json { render json: @route, status:201}
             format.html { render :show}
         end 
         #redirect_to map_route_path(map.id, @route.id)
