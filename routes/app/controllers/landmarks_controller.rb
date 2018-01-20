@@ -11,6 +11,7 @@ class LandmarksController < ApplicationController
     def show 
         set_landmark
         @routes = Route.all
+        #binding.pry
         respond_to do |format| 
             format.json {render json: @landmark }
             format.html {render :show }
@@ -18,6 +19,7 @@ class LandmarksController < ApplicationController
     end
     
     def create
+        #binding.pry
         @landmark = Landmark.create(landmark_params)
         
         render json: @landmark, status: 201

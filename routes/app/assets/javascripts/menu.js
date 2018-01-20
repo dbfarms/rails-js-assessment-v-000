@@ -13,15 +13,18 @@ function attachListeners() {
 function mapButtons() {
     $.get('/maps', (mapList) => {
         //debugger
-        if (mapList.data.length) {
+        var maps = $('#maps').html()
+        
+        if (mapList.data.length && maps === "") {
             mapList.data.forEach(buttonizeMapList)
+        } else if (maps !== "") {
+          document.getElementById('maps').innerHTML = ""
         }
     })
 }
 
 function landmarkButtons() {
-    debugger 
-    // make this just a link
+    $.get('/landmar')
 }
 
 function categoryButtons() {
@@ -37,69 +40,25 @@ function buttonizeMapList(map) {
     });
 };
 
-/*
-    const xhr = new XMLHttpRequest;
-    //debugger 
-    xhr.overrideMimeType('application/json');
-    xhr.open('GET', `maps/${mapID}/routes`, true);
-    xhr.onload = () => {
-        debugger
-        //const data = JSON.parse(xhr.responseText.data)
-        //debugger 
-    }
-    
-    xhr.send(null);
-*/
 
-/*
-  
-  xhr.open('GET', `/games/${gameID}`, true);
-  xhr.onload = () => {
-    const data = JSON.parse(xhr.responseText).data;
-    const id = data.id;
-    const state = data.attributes.state;
-
-    let index = 0;
-    for (let y = 0; y < 3; y++) {
-      for (let x = 0; x < 3; x++) {
-        document.querySelector(`[data-x="${x}"][data-y="${y}"]`).innerHTML = state[index];
-        index++;
-      }
-    }
-
-    turn = state.join('').length;
-    currentGame = id;
-
-    
-  };
-
-  xhr.send(null);
+function LandmarkItem(attributes) {
+  this.name = attributes.name
+  this.id = attributes.id
+  //history is a reserve word?
 }
-*/
 
-/*
-  if (currentGame) {
-    $.ajax({
-      type: 'PATCH',
-      url: `/games/${currentGame}`,
-      data: gameData
-    });
-  } else {
-    $.post('/games', gameData, function(game) {
-      currentGame = game.data.id;
-      $('#games').append(`<button id="gameid-${game.data.id}">${game.data.id}</button><br>`);
-      $("#gameid-" + game.data.id).on('click', () => reloadGame(game.data.id));
-    });
+LandmarkItem.prototype.returnTemplate = function (){
+  return LandmarkItem.template(this)
+}
+
+Handlebars.registerHelper("debug", function(optionalValue) {
+  console.log("Current Context");
+  console.log("====================");
+  console.log(this);
+ 
+  if (optionalValue) {
+    console.log("Value");
+    console.log("====================");
+    console.log(optionalValue);
   }
-*/
-
-
-/*
-<h2>Pick a map to edit:</h2>
-
-<ul>
-   <% @maps.each do |map| %>
-    <li><%= button id="map" link_to map.name, map_path(map)%></li>
-   <% end %>
- </ul>
-*/
+});

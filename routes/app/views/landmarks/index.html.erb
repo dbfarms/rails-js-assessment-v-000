@@ -1,5 +1,39 @@
 <ul>
     <% @landmarks.each do |landmark| %>
-    <li><%= link_to landmark.name, landmark_path(landmark) %></li>
+    <li><a href="#" data-id="<%=landmark.id%>" class="showlandmark">See Landmark <%=landmark.name%></a></li>
     <% end %>
 </ul>
+
+<br>
+
+<div id="landmarkHere">
+    
+</div>
+
+<%= link_to "Create New Landmark", new_landmark_path %>
+<br>
+<br>
+
+<script id="lm-template" type="text/x-handlebars-template">
+  <article>
+    <header><h3>Landmark Name: {{name}}</h3></header>
+    <p>Landmark history: {{history}}</p>
+  </article>
+</script>
+
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    $('.showlandmark').click( function(e) {
+      e.preventDefault()
+      var id = this.dataset.id
+      //debugger
+      $.get('/landmarks/' + id + ".json", function(data) {
+        //debugger
+        var lm = data["data"]["attributes"]
+        var template = Handlebars.compile(document.getElementById("lm-template").innerHTML);
+        var result = template(lm);
+        document.getElementById("landmarkHere").innerHTML += result;
+      })
+    })
+  })
+</script>
