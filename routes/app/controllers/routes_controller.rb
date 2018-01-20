@@ -45,11 +45,13 @@ class RoutesController < ApplicationController
     end 
     
     def update 
-        @route = Route.find(params["route"]["id"])
+        #@route = Route.find(params["route"]["id"])
+        @route = Route.find(params["id"])
         @route.update(route_params)
         #@route.push_landmarks(@route, params["route"]["landmark_ids"])
         @route.save
         map = Map.find(params["route"]["map_id"])
+        binding.pry
         respond_to do |format|
             format.json { render json: @route, status:201}
             format.html { render :show}
