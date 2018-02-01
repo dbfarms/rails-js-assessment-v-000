@@ -20,20 +20,3 @@
     <p>Landmark history: {{history}}</p>
   </article>
 </script>
-
-<script type="text/javascript" charset="utf-8">
-  $(function() {
-    $('.showlandmark').click( function(e) {
-      e.preventDefault()
-      var id = this.dataset.id
-      //debugger
-      $.get('/landmarks/' + id + ".json", function(data) {
-        //debugger
-        var lm = data["data"]["attributes"]
-        var template = Handlebars.compile(document.getElementById("lm-template").innerHTML);
-        var result = template(lm);
-        document.getElementById("landmarkHere").innerHTML = result;
-      })
-    })
-  })
-</script>

@@ -20,7 +20,7 @@ class RoutesController < ApplicationController
     def show
         set_route
         respond_to do |format|
-            format.json {render json: @route, include: ['maps', 'landmarks']}
+            format.json {render json: @route}
             format.html {render :show  } #for some reason redirect_to wasn't working here!!!!!!!!
         end 
     end 

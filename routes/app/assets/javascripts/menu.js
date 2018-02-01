@@ -6,9 +6,74 @@ function attachListeners() {
     $('#mapsButton').on('click', () => mapButtons());
     $('#landmarksButton').on('click', () => landmarkButtons());
     $('#categoriesButton').on('click', () => categoryButtons());
-    //$('#routesButton').on('click', () => routeButtons())
+    $('.showlandmark').on('click', (event) => showLandmark(event));
+    //$('form.route').on('click', () => routeObject());
+    //$('form.route').onsubmit = routeObject();
+    //$('form.landmark').on('click', () => landmarkObject());
 
 }
+
+function RouteObject(thisRoute){
+  //debugger
+  this.name = thisRoute.data.attributes.name
+  this.rating = thisRoute.data.attributes.rating 
+  this.landmarks = thisRoute["data"]["relationships"]["landmarks"]["data"]
+  
+}
+
+Handlebars.registerHelper('list', function(items, options) {
+  var out = "<ul>";
+
+  for(var i=0, l=items.length; i<l; i++) {
+    out = out + "<li>" + options.fn(items[i]) + "</li>";
+  }
+
+  return out + "</ul>";
+});
+
+
+RouteObject.prototype.returnTemplate = function (){
+  var template = Handlebars.compile(document.getElementById("route-template").innerHTML);
+  return template(this)
+}
+
+
+function landmarkObject(){
+  debugger
+}
+
+function showLandmark(){
+  event.preventDefault();
+  var id = event.currentTarget.dataset.id
+  $.get('/landmarks/' + id + ".json", function(data) {
+        //debugger
+        var lm = data["data"]["attributes"]
+        newLandmark = new LandmarkItem(lm)
+        var result = newLandmark.returnTemplate()
+        document.getElementById("landmarkHere").innerHTML = result;
+      })
+}
+
+function LandmarkItem(attributes) {
+  this.name = attributes.name
+  this.lmHistory = attributes.history 
+}
+
+LandmarkItem.prototype.returnTemplate = function (){
+  var template = Handlebars.compile(document.getElementById("lm-template").innerHTML);
+  return template(this)
+}
+
+
+/*
+<script id="lm-template" type="text/x-handlebars-template">
+  <article>
+    <header><h3>Landmark Name: {{name}}</h3></header>
+    <p>Landmark history: {{history}}</p>
+  </article>
+</script>
+*/
+
 
 function mapButtons() {
     $.get('/maps', (mapList) => {
@@ -52,15 +117,6 @@ function buttonizeMapList(map) {
 };
 
 
-function LandmarkItem(attributes) {
-  this.name = attributes.name
-  this.id = attributes.id
-  //history is a reserve word?
-}
-
-LandmarkItem.prototype.returnTemplate = function (){
-  return LandmarkItem.template(this)
-}
 
 Handlebars.registerHelper("debug", function(optionalValue) {
   console.log("Current Context");
@@ -73,3 +129,4 @@ Handlebars.registerHelper("debug", function(optionalValue) {
     console.log(optionalValue);
   }
 });
+

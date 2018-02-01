@@ -17,7 +17,7 @@ class LandmarksController < ApplicationController
         @routes = Route.all
         #binding.pry
         respond_to do |format| 
-            format.json {render json: @landmark }
+            format.json {render json: @landmark, each_serializer: LandmarkSerializer }
             format.html {render :show }
         end 
     end
