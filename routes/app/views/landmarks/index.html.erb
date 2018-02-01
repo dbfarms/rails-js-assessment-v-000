@@ -32,7 +32,7 @@
         var lm = data["data"]["attributes"]
         var template = Handlebars.compile(document.getElementById("lm-template").innerHTML);
         var result = template(lm);
-        document.getElementById("landmarkHere").innerHTML += result;
+        document.getElementById("landmarkHere").innerHTML = result;
       })
     })
   })

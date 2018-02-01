@@ -11,7 +11,6 @@ class RoutesController < ApplicationController
         set_map
         @routes = @map.routes 
         #render json: @map.routes
-        #binding.pry
         respond_to do |format|
            format.json {render json: @map.routes }
            format.html {redirect_to map_path(@map.id) }
@@ -19,7 +18,6 @@ class RoutesController < ApplicationController
     end 
     
     def show
-        #binding.pry
         set_route
         respond_to do |format|
             format.json {render json: @route, include: ['maps', 'landmarks']}
@@ -31,7 +29,7 @@ class RoutesController < ApplicationController
         @route = Route.create(route_params)
         #@route.push_landmarks(@route, params["route"]["landmark_ids"])
         map = Map.find(params["route"]["map_id"])
-        binding.pry
+        #binding.pry
         respond_to do |format|
             format.json { render json: @route, status:201}
             format.html { render :show}
@@ -51,13 +49,20 @@ class RoutesController < ApplicationController
         #@route.push_landmarks(@route, params["route"]["landmark_ids"])
         @route.save
         map = Map.find(params["route"]["map_id"])
-        binding.pry
+        #binding.pry
         respond_to do |format|
             format.json { render json: @route, status:201}
             format.html { render :show}
         end 
         #redirect_to map_route_path(map.id, @route.id)
     end 
+    
+    def destroy
+        set_route
+        @route.destroy
+        redirect_to map_routes_path, notice: 'Route was successfully destroyed.' 
+    end
+    
     
     
     private 
