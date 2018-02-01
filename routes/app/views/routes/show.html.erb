@@ -7,6 +7,10 @@
     <% end %>
 </ul>
 
+<% if @route.rating != nil %>
+    <p>This route has been rated: <%=@route.rating%>.</p>
+<% end %>
+
 <br>
 
 <h3><%= link_to "Edit Route", edit_map_route_path %></h3>
@@ -25,7 +29,6 @@ $(function () {
   $('.landmark').on("click", function(e) {
         var id = this.dataset.id
         e.preventDefault()
-        
         $.get("/landmarks/" + id + ".json", function(data) {
         $('#landmark-name').html()
         $('#landmark-name').html(data["data"]["attributes"]["name"])

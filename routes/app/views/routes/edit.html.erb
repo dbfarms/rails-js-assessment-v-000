@@ -6,6 +6,8 @@
     <%= f.text_field :name %><br>
     <%= f.label :landmarks %>
     <%= f.collection_check_boxes :landmark_ids, Landmark.all, :id, :name %><br><br>
+    <%= f.label :rating %>
+    <%= select_tag :rating, options_for_select(["1", "2", "3", "4", "5"]), include_blank: true %><br>
     <%= f.hidden_field :map_id, :value => @map.id %>
     
     <%= f.submit %>

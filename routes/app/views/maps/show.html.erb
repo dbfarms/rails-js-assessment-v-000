@@ -36,6 +36,17 @@
 
 <br><br>
 
+<% if best_routes(@map) != [] %>
+  
+  <h3>The highest ranked route(s) for this map: </h3>
+  <ul>
+  <% #binding.pry %>    
+  <% best_routes(@map).each do |route| %>
+    <li><%= route.name %> </li>
+  <% end %>
+  </ul>
+<% end %>
+
 
 
 <script type="text/javascript" charset="utf-8">

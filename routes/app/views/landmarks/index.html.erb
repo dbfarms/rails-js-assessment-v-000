@@ -1,6 +1,6 @@
 <ul>
     <% @landmarks.each do |landmark| %>
-    <li><a href="#" data-id="<%=landmark.id%>" class="showlandmark">See Landmark <%=landmark.name%></a></li>
+    <li><button class="showlandmark" data-id="<%=landmark.id%>">See Landmark <%=landmark.name%></button></li>
     <% end %>
 </ul>
 
